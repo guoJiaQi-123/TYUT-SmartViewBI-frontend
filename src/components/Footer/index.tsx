@@ -10,21 +10,21 @@ const Footer: React.FC = () => {
       }}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
+          key: 'TYUT-SmartViewBI Pro',
+          title: 'TYUT-SmartViewBI Pro',
+          href: 'https://github.com/guoJiaQi-123/TYUT-SmartViewBI-frontend',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/guoJiaQi-123/TYUT-SmartViewBI-frontend',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'TYUT-SmartViewBI',
+          title: 'TYUT-SmartViewBI',
+          href: 'https://github.com/guoJiaQi-123/tyut-SmartViewBI-backend',
           blankTarget: true,
         },
       ]}

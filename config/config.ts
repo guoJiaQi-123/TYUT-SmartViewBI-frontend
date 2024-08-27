@@ -1,11 +1,10 @@
 // https://umijs.org/config/
-import {defineConfig} from '@umijs/max';
-import {join} from 'path';
+import { defineConfig } from '@umijs/max';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const {REACT_APP_ENV = 'dev'} = process.env;
+const { REACT_APP_ENV = 'dev' } = process.env;
 export default defineConfig({
   /**
    * @name 开启 hash 模式
@@ -74,7 +73,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: 'TYUT-SmartViewBI Pro',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -131,7 +130,7 @@ export default defineConfig({
     {
       requestLibPath: "import { request } from '@umijs/max'",
       // 或者使用在线的版本
-      schemaPath: "http://localhost:8101/api/v2/api-docs",
+      schemaPath: 'http://localhost:8101/api/v2/api-docs',
       // schemaPath: join(__dirname, 'oneapi.json'),
       projectName: 'tyut-bi',
       mock: false,
