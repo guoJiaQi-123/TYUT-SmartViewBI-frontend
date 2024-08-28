@@ -1,6 +1,7 @@
 ﻿export default [
   { path: '/user', layout: false, routes: [{ path: '/user/login', component: './User/Login' }] },
-  { path: '/welcome', icon: 'smile', component: './Welcome' },
+  { path: '/', redirect: '/add_chart' },
+  { path: '/add_chart', name: '智能分析', icon: 'DotChart', component: './AddChart' },
   {
     path: '/admin',
     icon: 'crown',
@@ -11,7 +12,6 @@
       { path: '/admin/sub-page', component: './Admin' },
     ],
   },
-  { icon: 'table', path: '/list', component: './TableList' },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];
