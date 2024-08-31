@@ -5,10 +5,12 @@
 import * as chartController from './chartController';
 import * as fileController from './fileController';
 import * as postFavourController from './postFavourController';
+import * as queueController from './queueController';
 import * as userController from './userController';
 export default {
   chartController,
   fileController,
   postFavourController,
+  queueController,
   userController,
 };

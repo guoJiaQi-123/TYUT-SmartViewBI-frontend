@@ -1,6 +1,6 @@
 import { listMyChartByPageUsingPost } from '@/services/tyut-bi/chartController';
 import { useModel } from '@@/exports';
-import { Avatar, Card, List, message } from 'antd';
+import { Avatar, Card, Divider, List, message, Result, Switch } from 'antd';
 import Search from 'antd/es/input/Search';
 import ReactECharts from 'echarts-for-react';
 import React, { useEffect, useState } from 'react';
@@ -23,6 +23,7 @@ const MyChartPage: React.FC = () => {
   const [chartList, setChartList] = useState<API.Chart[]>();
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showGenRes, setShowGenRes] = useState<boolean>(true);
 
   const loadData = async () => {
     setLoading(true);
@@ -33,7 +34,6 @@ const MyChartPage: React.FC = () => {
         setTotal(res.data.total ?? 0);
         // 隐藏图表的 title
         if (res.data.records) {
-          console.log(res.data.records);
           res.data.records.forEach((data) => {
             // if (data.status === 'succeed') {
             const chartOption = JSON.parse(data.genChart ?? '{}');
@@ -49,6 +49,10 @@ const MyChartPage: React.FC = () => {
       message.error('获取我的图表失败，' + e.message);
     }
     setLoading(false);
+  };
+
+  const onChange = (checked: boolean) => {
+    setShowGenRes(checked);
   };
 
   useEffect(() => {
@@ -72,6 +76,9 @@ const MyChartPage: React.FC = () => {
           }}
         />
       </div>
+      <Divider />
+      是否显示分析结论：
+      <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked onChange={onChange} />
       <div style={{ marginBottom: '20px' }} />
       <List
         grid={{
@@ -107,35 +114,41 @@ const MyChartPage: React.FC = () => {
                 title={item.name}
                 description={item.chartType ? '图表类型：' + item.chartType : undefined}
               />
-              {/*<>*/}
-              {/*{item.status === 'wait' && (*/}
-              {/*  <>*/}
-              {/*    <Result*/}
-              {/*      status="warning"*/}
-              {/*      title="待生成"*/}
-              {/*      subTitle={item.execMessage ?? '当前图表生成队列繁忙，请耐心等候'}*/}
-              {/*    />*/}
-              {/*  </>*/}
-              {/*)}*/}
-              {/*{item.status === 'running' && (*/}
-              {/*  <>*/}
-              {/*    <Result status="info" title="图表生成中" subTitle={item.execMessage} />*/}
-              {/*  </>*/}
-              {/*)}*/}
-              {/*{item.status === 'succeed' && (*/}
-              {/*<>*/}
-              <div style={{ marginBottom: 16 }} />
-              <p>{'分析目标：' + item.goal}</p>
-              <div style={{ marginBottom: 16 }} />
-              <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
-              {/*</>*/}
-              {/*)}*/}
-              {/*{item.status === 'failed' && (*/}
-              {/*  <>*/}
-              {/*    <Result status="error" title="图表生成失败" subTitle={item.execMessage} />*/}
-              {/*  </>*/}
-              {/*)}*/}
-              {/*</>*/}
+              <>
+                {item.state === 0 && ( // 待生成
+                  <>
+                    <Result
+                      status="warning"
+                      title="待生成"
+                      subTitle={item.execMessage ?? '当前图表生成队列繁忙，请耐心等候'}
+                    />
+                  </>
+                )}
+                {item.state === 1 && ( // 生成中
+                  <>
+                    <Result status="info" title="图表生成中" subTitle={item.execMessage} />
+                  </>
+                )}
+                {item.state === 3 && ( // 生成成功
+                  <>
+                    <div style={{ marginBottom: 16 }} />
+                    <p>{'分析目标：' + item.goal}</p>
+                    <div style={{ marginBottom: 16 }} />
+                    <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
+                    {showGenRes && (
+                      <p>
+                        <b>{'分析结论：'}</b>
+                        {item.genResult}
+                      </p>
+                    )}
+                  </>
+                )}
+                {item.state === 2 && ( // 生成失败
+                  <>
+                    <Result status="error" title="图表生成失败" subTitle={item.execMessage} />
+                  </>
+                )}
+              </>
             </Card>
           </List.Item>
         )}
