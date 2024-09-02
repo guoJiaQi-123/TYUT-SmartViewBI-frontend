@@ -8,6 +8,12 @@
     icon: 'DotChart',
     component: './AddChartAsync',
   },
+  {
+    path: '/add_chart_async_mq',
+    name: '智能分析（异步 基于消息队列）',
+    icon: 'DotChart',
+    component: './AddChartAsyncMq',
+  },
   { path: '/my_chart', name: '我的图表', icon: 'Home', component: './MyChart' },
   {
     path: '/admin',

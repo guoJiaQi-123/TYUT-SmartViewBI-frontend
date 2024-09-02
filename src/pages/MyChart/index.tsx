@@ -1,6 +1,7 @@
 import { listMyChartByPageUsingPost } from '@/services/tyut-bi/chartController';
 import { useModel } from '@@/exports';
-import { Avatar, Card, Divider, List, message, Result, Switch } from 'antd';
+import { SizeType } from '@ant-design/pro-form/es/BaseForm';
+import { Avatar, Card, Divider, Flex, List, message, Result, Switch } from 'antd';
 import Search from 'antd/es/input/Search';
 import ReactECharts from 'echarts-for-react';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ const MyChartPage: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [showGenRes, setShowGenRes] = useState<boolean>(true);
+  const [showChartData, setShowChartData] = useState<boolean>(true);
 
   const loadData = async () => {
     setLoading(true);
@@ -59,6 +61,11 @@ const MyChartPage: React.FC = () => {
     loadData();
   }, [searchParams]);
 
+  const onChangeShowChartData = (checked: boolean) => {
+    setShowChartData(checked);
+  };
+  const [gapSize] = React.useState<SizeType | 'customize'>('small');
+  const [customGapSize] = React.useState<number>(0);
   return (
     <div className="my-chart-page">
       {/* 搜索组件 */}
@@ -77,8 +84,34 @@ const MyChartPage: React.FC = () => {
         />
       </div>
       <Divider />
-      是否显示分析结论：
-      <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked onChange={onChange} />
+
+      <Flex gap="middle" vertical>
+        {/*<Radio.Group value={gapSize} onChange={(e) => setGapSize(e.target.value)}>*/}
+        {/*  {['small', 'middle', 'large', 'customize'].map((size) => (*/}
+        {/*    <Radio key={size} value={size}>*/}
+        {/*      {size}*/}
+        {/*    </Radio>*/}
+        {/*  ))}*/}
+        {/*</Radio.Group>*/}
+        {/*{gapSize === 'customize' && <Slider value={customGapSize} onChange={setCustomGapSize} />}*/}
+
+        <Flex gap={gapSize !== 'customize' ? gapSize : customGapSize}>
+          是否显示分析结论：
+          <Switch
+            checkedChildren="开启"
+            unCheckedChildren="关闭"
+            defaultChecked
+            onChange={onChange}
+          />
+          是否显示原始数据：
+          <Switch
+            checkedChildren="开启"
+            unCheckedChildren="关闭"
+            defaultChecked
+            onChange={onChangeShowChartData}
+          />
+        </Flex>
+      </Flex>
       <div style={{ marginBottom: '20px' }} />
       <List
         grid={{
@@ -139,6 +172,13 @@ const MyChartPage: React.FC = () => {
                       <p>
                         <b>{'分析结论：'}</b>
                         {item.genResult}
+                      </p>
+                    )}
+
+                    {showChartData && (
+                      <p>
+                        <b>{'原始数据：'}</b>
+                        {item.chartData}
                       </p>
                     )}
                   </>
