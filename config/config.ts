@@ -137,8 +137,8 @@ export default defineConfig({
     },
     // {
     //   requestLibPath: "import { request } from '@umijs/max'",
-    //   schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-    //   projectName: 'swagger',
+    //   schemaPath: 'http://localhost:7529/api/v2/api-docs',
+    //   projectName: 'tlrj-api-backend',
     // },
   ],
   mfsu: {
